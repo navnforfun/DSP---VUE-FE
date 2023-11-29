@@ -1,0 +1,1 @@
+export let PUBLIC_LAYOUT = "default";

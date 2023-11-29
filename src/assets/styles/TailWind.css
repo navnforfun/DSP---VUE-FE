@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+* {
+	box-sizing: border-box;
+}
+@font-face {
+	font-family: "danhDa";
+	src: url("../Font/danhda.ttf");
+}
+.danhDa{
+    font-family: danhDa;
+}

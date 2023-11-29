@@ -1,19 +1,6 @@
-# dsp_vue
-
-## Project setup
-```
-yarn install
-```
-
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
-
-### Compiles and minifies for production
-```
-yarn build
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+# set up
+1. This project use 2 way for tailwind 
+    * Use import
+    * Use just in time ( input.css and output.css)
+2. Font awesome
+3. pinna, axios
