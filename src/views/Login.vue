@@ -63,8 +63,11 @@
           </button>
           <div class="text-right md:flex justify-end">
             <p>Bạn chưa có tài khoản?</p>
-            <a href="http://localhost:8080/register" class="decoration-1 underline"
+            <!-- <a href="http://localhost:8080/register" class="decoration-1 underline"
               >Đăng ký ngay</a
+            > -->
+            <router-link :to="{ name: 'register' }" class="decoration-1 underline"
+              >Đăng ký ngay</router-link
             >
           </div>
         </div>
