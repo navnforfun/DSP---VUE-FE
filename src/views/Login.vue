@@ -49,6 +49,12 @@
             >
           </label>
         </div>
+        <div v-if="err">
+          <br />
+          <div class="text-center text-myRed-400">
+            <span class="bg-myYellow-300 px-2 py-1 rounded-sm"> {{ err }}</span>
+          </div>
+        </div>
         <div class="font-beVnPro w-3/5 mt-8 mx-auto">
           <div class="w-fit ml-auto">
             <a href="" class="ml-3 text-sm font-medium text-myRed-600 tracking-widest"
@@ -56,7 +62,7 @@
             >
           </div>
           <button
-            class="w-full bg-myRed-600 text-stone-50 h-14 rounded-md text-3xl font-bold my-3"
+            class="w-full bg-myRed-600 text-stone-50 h-14 rounded-md text-3xl font-bold my-3 login-btn"
             @click="myLogin()"
           >
             ĐĂNG NHẬP
@@ -80,26 +86,32 @@
   </div>
 </template>
 <script>
-import { login } from "@/composables/useLogin";
-import { ref } from "vue";
+import { useLogin } from "@/composables/useLogin";
+import { ref, onMounted } from "vue";
+import { startDis, stopDis } from "@/composables/useExtend";
+import { useRouter } from "vue-router";
 export default {
   setup() {
     let username = ref("");
     let password = ref("");
-
+    let route = useRouter();
+    let err = ref("");
     async function myLogin() {
-      let data = await login(username.value, password.value);
-      if (data) {
-        console.log(data);
+      startDis(".login-btn");
+      let data = await useLogin(username.value, password.value);
+
+      if (data.status == 200) {
+        route.push({ name: "home" });
       } else {
-        console.log(data);
-        alert("Oke");
+        err.value = data.data;
       }
+      stopDis(".login-btn");
     }
     return {
       myLogin,
       username,
       password,
+      err,
     };
   },
 };

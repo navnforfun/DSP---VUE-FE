@@ -11,6 +11,7 @@ const routes = [
 		},
 		component: HomeView,
 	},
+	
 	{
 		path: "/login",
 		name: "login",
