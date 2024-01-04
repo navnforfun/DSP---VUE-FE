@@ -83,11 +83,20 @@
                 <p
                   class="text-ellipsis overflow-hidden whitespace-nowrap w-[30vw] ps-4 cursor-default"
                 >
-                  {{ box.title }}
+                  <router-link
+                    :to="{
+                      name: 'detailBox',
+                      query: { id: box.id },
+                    }"
+                  >
+                    {{ box.title }}</router-link
+                  >
                 </p>
               </div>
               <div class="flex gap-24">
-                <p class="cursor-default">{{ box.dateCreated }}</p>
+                <p class="cursor-default">
+                  {{ box.dateCreated }}
+                </p>
                 <ul class="flex gap-3 text-myYellow-400 italic">
                   <li class="cursor-pointer">Sửa</li>
                   <li class="cursor-pointer">Xóa</li>
@@ -127,19 +136,5 @@ export default {
 };
 </script>
 <style scoped>
-.home {
-  position: relative;
-}
-.home::after {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background: url("../assets//Images/bghome.png");
-  opacity: 0.2;
-  content: "";
-  z-index: -1;
-  background-size: 20%, 25%, 25%;
-}
+
 </style>

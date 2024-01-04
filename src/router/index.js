@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import Login from "@/views/Login.vue";
 import Register from "@/views/Register.vue";
+import DetailBox from "@/views/DetailBox.vue"
 const routes = [
 	{
 		path: "/",
@@ -10,8 +11,15 @@ const routes = [
 			layout: "default",
 		},
 		component: HomeView,
+	},	
+	{
+		path: "/detailBox",
+		name: "detailBox",
+		meta: {
+			layout: "default",
+		},
+		component: DetailBox,
 	},
-	
 	{
 		path: "/login",
 		name: "login",
