@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="home my-10">
     <div class="container mx-auto px-56 pt-4">
       <section class="flex justify-between items-center font-beVnPro">
         <div class="flex justify-center items-center">
@@ -86,7 +86,12 @@
                   <router-link
                     :to="{
                       name: 'detailBox',
-                      query: { id: box.id },
+                      params: {
+                        title: box.title,
+                      },
+                      query: {
+                        id: box.id,
+                      },
                     }"
                   >
                     {{ box.title }}</router-link
@@ -135,6 +140,20 @@ export default {
   },
 };
 </script>
-<style scoped>
-
+<style>
+.home {
+  position: relative;
+}
+.home::after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: url("../assets/Images/bghome.png");
+  opacity: 0.2;
+  content: "";
+  z-index: -1;
+  background-size: 20%, 25%, 25%;
+}
 </style>

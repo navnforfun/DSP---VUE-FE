@@ -13,8 +13,9 @@ const routes = [
 		component: HomeView,
 	},	
 	{
-		path: "/detailBox",
+		path: "/detailBox/:title",
 		name: "detailBox",
+		
 		meta: {
 			layout: "default",
 		},

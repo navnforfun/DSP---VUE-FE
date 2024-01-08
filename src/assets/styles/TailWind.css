@@ -11,18 +11,4 @@
 .danhDa {
 	font-family: danhDa;
 }
-.home {
-	position: relative;
-}
-.home::after {
-	position: absolute;
-	top: 0;
-	left: 0;
-	bottom: 0;
-	right: 0;
-	background: url("../Images/bghome.png");
-	opacity: 0.2;
-	content: "";
-	z-index: -1;
-	background-size: 20%, 25%, 25%;
-}
+

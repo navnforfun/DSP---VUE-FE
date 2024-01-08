@@ -31,7 +31,6 @@
     </div>
   </div>
   <slot />
-  <div class="py-6"></div>
 </template>
 <script>
 import { useRouter } from "vue-router";
