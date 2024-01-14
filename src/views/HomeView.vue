@@ -1,5 +1,15 @@
 <template>
-  <div class="home my-10">
+  <div
+    class="modal fixed top-0 left-0 right-0 bottom-0 bg-gray-950 opacity-20 z-10 hidden"
+  ></div>
+
+  <div class="edit">
+    <EditBox @close="close()" box-id="5" />
+  </div>
+  <div class="create hidden">
+    <CreateBox @close="close()" />
+  </div>
+  <div class="home pb-10 pt-5">
     <div class="container mx-auto px-56 pt-4">
       <section class="flex justify-between items-center font-beVnPro">
         <div class="flex justify-center items-center">
@@ -55,7 +65,7 @@
                 </clipPath>
               </defs>
             </svg>
-            <p class="font-bold">Thêm bài viết</p>
+            <p class="font-bold cursor-pointer" @click="openCreate()">Thêm bài viết</p>
           </div>
         </div>
       </section>
@@ -65,7 +75,7 @@
         <div class="" v-if="listBox">
           <div class="" v-for="box in listBox">
             <div
-              class="flex justify-between border-b-2 border-solid border-myYellow-300 py-2 hover:font-bold"
+              class="flex justify-between border-b-2 border-solid border-myYellow-400 py-2 hover:font-bold"
             >
               <div class="flex">
                 <svg
@@ -98,14 +108,14 @@
                   >
                 </p>
               </div>
-              <div class="flex gap-24">
+              <div class="flex gap-36">
                 <p class="cursor-default">
                   {{ box.dateCreated }}
                 </p>
-                <ul class="flex gap-3 text-myYellow-400 italic">
+                <ul class="flex gap-6 text-myYellow-400 italic">
                   <li class="cursor-pointer">Sửa</li>
                   <li class="cursor-pointer">Xóa</li>
-                  <li class="cursor-pointer">Ẩn</li>
+                  <!-- <li class="cursor-pointer">Ẩn</li> -->
                 </ul>
               </div>
             </div>
@@ -116,30 +126,57 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { storeUser } from "@/stores/storeUser";
 import { useJwt } from "@/composables/useJwt";
 import { useGetBoxUser } from "@/composables/useGetBoxUser";
-import { reactive } from "vue";
-export default {
-  name: "HomeView",
-  async setup() {
-    useJwt();
-    let user = storeUser();
-    let data = await useGetBoxUser();
-    console.log(data);
-    let listBox = reactive({});
-    if (data.status === 200) {
-      listBox = data.data;
-    }
+import { reactive, onMounted } from "vue";
+import CreateBox from "@/components/CreateBox.vue";
+import EditBox from "@/components/EditBox.vue";
 
-    return {
-      user,
-      listBox,
+//
+
+onMounted(() => {
+  try {
+    let node = document.querySelectorAll(".note-editor.note-frame");
+    console.log(node[1]);
+    node[1].remove();
+    qrCode.append(document.getElementById(canvas));
+    console.log(document.getElementById(canvas));
+    node.onclick = function () {
+      qrCode2.download({ name: "qr", extension: "png" });
     };
-  },
-};
+  } catch {
+    console.log("hhh");
+  }
+});
+useJwt();
+
+let user = storeUser();
+let data = await useGetBoxUser();
+console.log(data);
+let listBox = reactive({});
+if (data.status === 200) {
+  listBox = data.data;
+}
+function close() {
+  let create = document.querySelector(".create");
+  let modal = document.querySelector(".modal");
+  create.classList.add("hidden");
+  modal.classList.add("hidden");
+}
+function openCreate() {
+  let create = document.querySelector(".create");
+  let modal = document.querySelector(".modal");
+  create.classList.remove("hidden");
+  modal.classList.remove("hidden");
+  modal.onclick = function () {
+    create.classList.add("hidden");
+    modal.classList.add("hidden");
+  };
+}
 </script>
+
 <style>
 .home {
   position: relative;
@@ -155,5 +192,12 @@ export default {
   content: "";
   z-index: -1;
   background-size: 20%, 25%, 25%;
+}
+.note-modal-backdrop {
+  z-index: 10;
+}
+.note-image-btn,
+.note-video-btn {
+  background-color: cornflowerblue !important;
 }
 </style>

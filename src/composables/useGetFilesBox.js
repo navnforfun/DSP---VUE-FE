@@ -12,7 +12,7 @@ async function useGetFilesBox(id) {
 			let ext = file.name.substring(position);
 			let img = [".png", ".jpg", ".jpeg", ".svg"];
 			let text = [".doc", ".docx"];
-			let filex = [".pptx", ".pdf"];
+			let filex = [".pptx", ".pdf",".mp4"];
 			if (img.includes(ext)) {
 				file.ext = "img.png";
 			} else if (text.includes(ext)) {

@@ -6,12 +6,13 @@
           <p class="font-bold text-gray-400 text-xs">
             {{ box.dateCreated }}
           </p>
+       
           <h3 class="font-bold text-2xl w-full break-words">
             {{ box.title }}
           </h3>
           <div class="border-solid border-b-2 border-myYellow-400 my-3"></div>
           <p class="min-h-[200px] break-words">
-            {{ box.content }}
+           <div class="" v-html="box.content"></div>
           </p>
           <div class="">
             <p class="font-bold inline-block">
