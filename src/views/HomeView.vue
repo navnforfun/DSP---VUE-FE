@@ -3,9 +3,6 @@
     class="modal fixed top-0 left-0 right-0 bottom-0 bg-gray-950 opacity-20 z-10 hidden"
   ></div>
 
-  <div class="edit">
-    <EditBox @close="close()" box-id="5" />
-  </div>
   <div class="create hidden">
     <CreateBox @close="close()" />
   </div>
@@ -113,7 +110,17 @@
                   {{ box.dateCreated }}
                 </p>
                 <ul class="flex gap-6 text-myYellow-400 italic">
-                  <li class="cursor-pointer">Sửa</li>
+                  <li class="cursor-pointer">
+                    <router-link
+                      :to="{
+                        name: 'editBox',
+                        query: {
+                          id: box.id,
+                        },
+                      }"
+                      >Sửa</router-link
+                    >
+                  </li>
                   <li class="cursor-pointer">Xóa</li>
                   <!-- <li class="cursor-pointer">Ẩn</li> -->
                 </ul>
@@ -130,31 +137,28 @@
 import { storeUser } from "@/stores/storeUser";
 import { useJwt } from "@/composables/useJwt";
 import { useGetBoxUser } from "@/composables/useGetBoxUser";
-import { reactive, onMounted } from "vue";
+import { reactive, onMounted, ref } from "vue";
 import CreateBox from "@/components/CreateBox.vue";
-import EditBox from "@/components/EditBox.vue";
 
-//
+// edit
+let boxId = ref("");
 
 onMounted(() => {
   try {
     let node = document.querySelectorAll(".note-editor.note-frame");
-    console.log(node[1]);
     node[1].remove();
     qrCode.append(document.getElementById(canvas));
     console.log(document.getElementById(canvas));
     node.onclick = function () {
       qrCode2.download({ name: "qr", extension: "png" });
     };
-  } catch {
-    console.log("hhh");
-  }
+  } catch {}
 });
 useJwt();
 
 let user = storeUser();
 let data = await useGetBoxUser();
-console.log(data);
+// console.log(data);
 let listBox = reactive({});
 if (data.status === 200) {
   listBox = data.data;

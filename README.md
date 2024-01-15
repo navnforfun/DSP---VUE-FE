@@ -4,3 +4,6 @@
     * Use just in time ( input.css and output.css)
 2. Font awesome
 3. pinna, axios
+
+# Note
+* Loading animation when load content before edit 

@@ -88,7 +88,7 @@ onMounted(() => {
 
   try {
     let node = document.querySelectorAll(".note-editor.note-frame");
-    console.log(node);
+    // console.log(node);
 
     node[-1].remove();
     qrCode.append(document.getElementById(canvas));
@@ -97,7 +97,7 @@ onMounted(() => {
       qrCode2.download({ name: "qr", extension: "png" });
     };
   } catch {
-    console.log("hhh");
+    // console.log("hhh");
   }
   $("#summernote").summernote({
     placeholder: "Nhập nội dung tại đây",
@@ -113,6 +113,6 @@ onMounted(() => {
       ["view", ["codeview", "help"]],
     ],
   });
-  console.log("Khoi tao summer note");
+  // console.log("Khoi tao summer note");
 });
 </script>

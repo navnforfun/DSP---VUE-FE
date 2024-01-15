@@ -1,8 +1,10 @@
 import { createRouter, createWebHistory } from "vue-router";
+import { defineAsyncComponent } from "vue";
 import HomeView from "../views/HomeView.vue";
 import Login from "@/views/Login.vue";
 import Register from "@/views/Register.vue";
 import DetailBox from "@/views/DetailBox.vue"
+import EditBox from "@/views/EditBox.vue"
 const routes = [
 	{
 		path: "/",
@@ -11,6 +13,7 @@ const routes = [
 			layout: "default",
 		},
 		component: HomeView,
+		// component: defineAsyncComponent(() => import("../views/HomeView.vue")),
 	},	
 	{
 		path: "/detailBox/:title",
@@ -20,6 +23,15 @@ const routes = [
 			layout: "default",
 		},
 		component: DetailBox,
+	},
+	{
+		path: "/EditBox",
+		name: "editBox",
+		
+		meta: {
+			layout: "default",
+		},
+		component: EditBox,
 	},
 	{
 		path: "/login",

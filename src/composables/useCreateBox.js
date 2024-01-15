@@ -16,24 +16,24 @@ async function useCreateBox(title, content, available, files) {
 	let options = {
 		method: "post",
 		headers: {
-			accept: 'application/json',
+			accept: "application/json",
 			"content-type": "multipart/form-data",
 			Authorization: `Bearer ${storeUser().jwt}`,
 		},
 		data: bodyFormData,
 		url: "http://localhost:5296/api/Box/CreateBox",
 		maxContentLength: Infinity,
-maxBodyLength: Infinity
+		maxBodyLength: Infinity,
 	};
 	var result;
 	await axios(options)
 		.then(function (res) {
 			console.log(res);
-			result = res
+			result = res;
 		})
 		.catch(function (err) {
 			console.log(err);
-			result = err.response
+			result = err.response;
 		});
 	return result;
 }

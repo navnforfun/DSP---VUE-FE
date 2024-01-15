@@ -1,7 +1,24 @@
 import axios from "axios";
+import { storeUser } from "@/stores/storeUser";
+
 async function useGetFilesBox(id) {
-	let data = await axios
-		.get("http://localhost:5296/api/Box/GetListFileInBox?boxId=" + id)
+	let option = {}
+	if(storeUser().jwt != null){
+		option = {
+			method:"get",
+			url : "http://localhost:5296/api/Box/GetListFileInBox?boxId=" + id,
+			headers: {
+				
+				Authorization: `Bearer ${storeUser().jwt}`,
+			},
+		}
+	}else{
+		option = {
+			method:"get",
+			url : "http://localhost:5296/api/Box/GetListFileInBox?boxId=" + id,
+		}
+	}
+	let data = await axios(option)
 		.catch(function (error) {
 			console.log(error.response);
 			return error.response;

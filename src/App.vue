@@ -1,8 +1,11 @@
 <template>
   <div class="">
-    <suspense>
-      <component :is="layout"> <router-view /> </component>
-    </suspense>
+    <Suspense>
+      <template #default>
+        <component :is="layout"> <router-view /> </component>
+      </template>
+      <template #fallback> Loading... </template>
+    </Suspense>
   </div>
 </template>
 
