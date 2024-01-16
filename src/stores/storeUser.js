@@ -1,4 +1,4 @@
-import { defineStore } from "pinia";
+import { defineStore,getActivePinia } from "pinia";
 import { ref, reactive } from "vue";
 let storeUser = defineStore("storeUser", {
 	state: () => {

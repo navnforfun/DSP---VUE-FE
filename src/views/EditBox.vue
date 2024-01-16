@@ -35,8 +35,8 @@
         </div>
         <div class="px-5">
           <p class="font-bold">Danh sách tệp hiện tại:</p>
-          <p>state: {{ files.state }}</p>
-          <p>{{ files.length }}</p>
+          <!-- <p>state: {{ files.state }}</p>
+          <p>{{ files.length }}</p> -->
           <p class="hidden">{{ xxx }}</p>
           <table class="table-auto w-full">
             <thead>
@@ -99,20 +99,29 @@ import { useGetFilesBox } from "@/composables/useGetFilesBox";
 import { useDeleteFile } from "@/composables/useDeleteFile";
 import { useUploadFile } from "@/composables/useUploadFile";
 import { ref, reactive, watch, onMounted, getCurrentInstance, computed } from "vue";
-import { useRouter } from "vue-router";
-import { useJwt } from "@/composables/useJwt";
-useJwt();
+import { storeUser } from "@/stores/storeUser";
+
 let route = useRouter();
 let data = await useGetDetailBox(route.currentRoute.value.query.id);
 let box = data.data;
+let err = ref("");
 console.log(data);
 async function saveEdit() {
   let title = document.querySelector(".title-edit");
   let content = document.querySelector(".note-editable");
   let available = document.querySelector(".available-edit");
   await useUpdateBox(box.id, title.value, content.innerHTML, available.value);
+  route.push({
+    name: "detailBox",
+    params: {
+      title: box.title,
+    },
+    query: {
+      id: box.id,
+    },
+  });
 }
-let files = reactive({});
+let files = reactive([]);
 let filesFetch = await useGetFilesBox(route.currentRoute.value.query.id);
 if (filesFetch.status == 200) {
   files = filesFetch.data;
@@ -120,13 +129,12 @@ if (filesFetch.status == 200) {
   err.value = filesFetch.data;
 }
 console.log(files);
-// var listFileRender = computed(() => {
-//   return files;
-// });
 // delete file
 async function deleteFile(id, boxId, fileName) {
   let fileDeleteResult = await useDeleteFile(id, boxId, fileName);
-  console.log(fileDeleteResult);
+  // console.log(fileDeleteResult);
+  // files[1].name = "delete";
+  // console.log(files);
   updateListFile();
 }
 // upload file
@@ -148,7 +156,7 @@ async function updateListFile() {
 let xxx = reactive({ x: 1 });
 async function test() {
   xxx.x = Math.random() * 10;
-  files.state = Math.random() * 10;
+  // files.state = Math.random() * 10;
   // text.files = files.length;
   // console.log(text);
 }

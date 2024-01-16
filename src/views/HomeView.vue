@@ -11,13 +11,13 @@
       <section class="flex justify-between items-center font-beVnPro">
         <div class="flex justify-center items-center">
           <p>Sắp xếp theo:</p>
-          <select name="" id="" class="font-bold">
-            <option value="">Ngày tạo</option>
-            <option value="">Tên</option>
+          <select name="" id="" class="sort font-bold">
+            <option value="date">Ngày tạo</option>
+            <option value="name">Tên</option>
           </select>
           <div class="border-solid border-myYellow-400 border-2 rounded-md p-1 ms-2">
-            <input type="text" placeholder="Tìm kiếm" class="outline-none" />
-            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Tìm kiếm" class="outline-none search" />
+            <i class="fa-solid fa-magnifying-glass searchBtn"></i>
           </div>
         </div>
 
@@ -68,6 +68,8 @@
       </section>
       <section class="pt-4">
         <p class="text-2xl font-bold font-beVnPro">Danh sách bài viết của tôi</p>
+        <p class="hidden">{{ state }}</p>
+        <!-- <p>{{ listBox.length }}</p> -->
         <br />
         <div class="" v-if="listBox">
           <div class="" v-for="box in listBox">
@@ -94,7 +96,7 @@
                     :to="{
                       name: 'detailBox',
                       params: {
-                        title: box.title,
+                        title: box.url,
                       },
                       query: {
                         id: box.id,
@@ -121,7 +123,7 @@
                       >Sửa</router-link
                     >
                   </li>
-                  <li class="cursor-pointer">Xóa</li>
+                  <li class="cursor-pointer" @click="deleteBox(box.id)">Xóa</li>
                   <!-- <li class="cursor-pointer">Ẩn</li> -->
                 </ul>
               </div>
@@ -137,6 +139,7 @@
 import { storeUser } from "@/stores/storeUser";
 import { useJwt } from "@/composables/useJwt";
 import { useGetBoxUser } from "@/composables/useGetBoxUser";
+import { useDeleteBox } from "@/composables/useDeleteBox";
 import { reactive, onMounted, ref } from "vue";
 import CreateBox from "@/components/CreateBox.vue";
 
@@ -153,6 +156,45 @@ onMounted(() => {
       qrCode2.download({ name: "qr", extension: "png" });
     };
   } catch {}
+  let sortOption = document.querySelector(".sort");
+  sortOption.onchange = function () {
+    if (sortOption.value == "date") {
+      listBox.sort(function (a, b) {
+        return b.id - a.id;
+      });
+    } else {
+      listBox.sort(function (a, b) {
+        if (a.title < b.title) {
+          return -1;
+        }
+        if (a.title > b.title) {
+          return 1;
+        }
+        return 0;
+      });
+    }
+    console.log(listBox);
+    testState();
+  };
+  let searchBtn = document.querySelector(".searchBtn");
+  let search = document.querySelector(".search");
+  searchBtn.onclick = async function () {
+    await findBox(search.value);
+  };
+  search.onkeyup = async function (event) {
+    if (event.key === "Enter") {
+      await findBox(search.value);
+    }
+  };
+  async function findBox(input) {
+    listBox = listBox.filter((item) =>
+      item.title.toLowerCase().includes(input.toLowerCase())
+    );
+    console.log(listBox);
+    testState();
+    listBox = (await useGetBoxUser()).data;
+    console.log(listBox);
+  }
 });
 useJwt();
 
@@ -162,6 +204,18 @@ let data = await useGetBoxUser();
 let listBox = reactive({});
 if (data.status === 200) {
   listBox = data.data;
+}
+let state = reactive({ state: 0 });
+// delete box
+async function deleteBox(boxId) {
+  let deleteBoxResult = await useDeleteBox(boxId);
+  let listBox2 = await useGetBoxUser();
+  listBox = listBox2.data;
+  console.log(listBox);
+  testState();
+}
+async function testState() {
+  state.state = Math.random() * 10;
 }
 function close() {
   let create = document.querySelector(".create");
@@ -184,6 +238,7 @@ function openCreate() {
 <style>
 .home {
   position: relative;
+  min-height: 100vh;
 }
 .home::after {
   position: absolute;

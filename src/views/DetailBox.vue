@@ -1,6 +1,6 @@
 <template>
-  <div class="home min-h-[100vh] container mx-auto px-56 pt-12 font-beVnPro">
-    <div class="">
+  <div class="home  min-h-[100vh] container  px-56 pt-12 font-beVnPro">
+    <div class="mx-auto">
       <div class="bg-white shadow-sm rounded-md p-6">
         <div class="" v-if="!err">
           <p class="font-bold text-gray-400 text-xs">
@@ -76,25 +76,26 @@
 </template>
 <script>
 import { useRouter } from "vue-router";
-import { storeUser } from "@/stores/storeUser";
-import { useJwt } from "@/composables/useJwt";
 import { useGetDetailBox } from "@/composables/useGetDetailBox";
 import { useGetFilesBox } from "@/composables/useGetFilesBox";
 import { reactive, ref, onMounted, onUnmounted } from "vue";
 import { useGenerateQr } from "@/composables/useGenerateQr";
 import { useDownLoadFile } from "@/composables/useDownLoadFile";
+import { storeUser } from "@/stores/storeUser";
+import {useJwt} from "@/composables/useJwt"
+
 export default {
   async setup() {
     onMounted(() => {
       // qrCode.append(document.getElementById("canvas"));
       useGenerateQr(
-        `http://localhost/detailBox/${box.title}?id=` + route.currentRoute.value.query.id,
+        `http://localhost/detailBox/${box.url}?id=` + route.currentRoute.value.query.id,
         "canvas"
       );
     });
+    // storeUser()
+useJwt()
     onUnmounted(() => {});
-    useJwt();
-    let user = storeUser();
     let route = useRouter();
     route.currentRoute.value.params;
     let box = reactive({});
@@ -103,6 +104,9 @@ export default {
 
     if (data.status == 200) {
       box = data.data;
+      if(!box.sharedStatus){
+        err = "Bài viết không khả dụng vào lúc này"
+      }
     } else {
       err.value = data.data;
     }

@@ -3,8 +3,9 @@ import { defineAsyncComponent } from "vue";
 import HomeView from "../views/HomeView.vue";
 import Login from "@/views/Login.vue";
 import Register from "@/views/Register.vue";
-import DetailBox from "@/views/DetailBox.vue"
-import EditBox from "@/views/EditBox.vue"
+import DetailBox from "@/views/DetailBox.vue";
+import EditBox from "@/views/EditBox.vue";
+import NotFound from "@/views/NotFound";
 const routes = [
 	{
 		path: "/",
@@ -14,11 +15,11 @@ const routes = [
 		},
 		component: HomeView,
 		// component: defineAsyncComponent(() => import("../views/HomeView.vue")),
-	},	
+	},
 	{
 		path: "/detailBox/:title",
 		name: "detailBox",
-		
+
 		meta: {
 			layout: "default",
 		},
@@ -27,7 +28,7 @@ const routes = [
 	{
 		path: "/EditBox",
 		name: "editBox",
-		
+
 		meta: {
 			layout: "default",
 		},
@@ -63,6 +64,7 @@ const routes = [
 		component: () =>
 			import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
 	},
+	{ path: "/:pathMatch(.*)*", component: NotFound },
 ];
 
 const router = createRouter({
